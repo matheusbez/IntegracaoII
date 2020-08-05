@@ -1,0 +1,48 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Hommy
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class='ion-padding'>
+  <div class='republic'>
+    <img class='republic-img' src="../../assets/konodioda.jpg">
+    <div class='republic-fields'>
+      <p>Nome: name</p>
+      <p>Endereço: address</p>
+      <p>Bairro: district</p>
+      <p>Cidade: city</p>
+      <p>Descrição: description</p>
+    </div>
+  </div>
+  <form *ngIf='!editMode'(ngSubmit)="sendComment(commentForm)" [formGroup]="commentForm">
+    <h2>Faça um comentário</h2>
+    <ion-textarea formControlName="text" class="comentario"></ion-textarea>
+    <div class="botao">
+      <ion-button [disabled]="!commentForm.valid" type='submit'>Comentar</ion-button>
+    </div>
+  </form>
+  <form *ngIf='editMode' (ngSubmit)="updateComment(editCommentForm)" [formGroup]="editCommentForm">
+    <h2>Edite seu comentario</h2>
+    <ion-textarea placeholder="{{ text_edit }}" formControlName="text" class="comentario"></ion-textarea>
+    <div class="botao">
+      <ion-button [disabled]="editCommentForm.invalid" type='submit'>Editar</ion-button>
+    </div>
+  </form>
+  <h2>Comentários</h2>
+  <ion-slides>
+    <ion-slide *ngFor="let comment of comments">
+      <ion-grid>
+        <ion-row class="text">{{ comment.text }}</ion-row>
+        <ion-row class="actions">
+          <ion-col><ion-button (click)="deleteComment(comment.id)"><ion-icon name="trash" ></ion-icon></ion-button></ion-col>
+          <ion-col><ion-button (click)="getCommentId(comment.id)"><ion-icon name="create" ></ion-icon></ion-button></ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-slide>
+  </ion-slides>
+</ion-content>
